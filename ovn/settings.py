@@ -212,3 +212,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#config simpleui
+SIMPLEUI_STATIC_OFFLINE = True
+SIMPLEUI_ANALYSIS = False
+SIMPLEUI_HOME_INFO = True
+SIMPLEUI_HOME_QUICK = True
+SIMPLEUI_HOME_ACTION = False
