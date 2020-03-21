@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+ABSPATH=`dirname $0` 
+source $ABSPATH/py3env/bin/activate
+echo `env`
+#export common_name='testname'
+#export trusted_ip='0.0.0.0'
+#export local_port_1='lport'
+#export bytes_sent='00000'
+#export bytes_received='00000'
+#export route_netmask_1='255.55.55.55'
+#export ifconfig_pool_remote_ip='0.0.1.0'
+python3 "$ABSPATH/disconovn.py" 

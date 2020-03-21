@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+ABSPATH=`dirname $0` 
+source $ABSPATH/py3env/bin/activate
+echo `env`
+python3 "$ABSPATH/query.py" -u ${username} -p ${password} 

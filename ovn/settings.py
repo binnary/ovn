@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,20 +26,22 @@ SECRET_KEY = '&cvm!o2=fj!e^a0dv!mg!v4%=!32_-+#--1h9f)l2xykpdn8t8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
-#'app.apps.AppConfig',
+# 'app.apps.AppConfig',
 INSTALLED_APPS = [
+    'simpleui',
     'xadmin',
+    'status',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admindocs',
     'crispy_forms',
 ]
 
@@ -103,6 +106,88 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# more details on how to customize your logging configuration.
+def filer():
+    from os.path import dirname, abspath
+    filedir = BASE_DIR + "/log/"  #3
+    if not os.path.isdir(filedir):
+        os.makedirs(filedir)
+    return os.path.join(filedir, "pims.log")
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'default':
+        {'format': '%(asctime)s %(levelname)s %(name)s %(lineno)d %(message)s',
+         'datefmt': '%Y-%m-%d %H:%M:%S', },
+        'verbose': {'format': '%(asctime)s %(levelname)s %(module)s \
+                %(process)d %(thread)d %(message)s',
+                    'datefmt': '%Y-%m-%d %H:%M:%S', },
+        'simple': {'format': '%(levelname)s %(message)s',
+                   'datefmt': '%Y-%m-%d %H:%M:%S'},
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default',
+            'stream': 'ext://sys.stdout',
+        },
+        'default': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'default',
+            'filename': filer(),
+            'maxBytes': 1024000,
+            'backupCount': 3,
+            'encoding': 'utf8',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['default', 'console'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'default': {
+            'level': 'DEBUG',
+            'handlers': ['default', 'console'],
+        },
+        'contact': {
+            'level': 'DEBUG',
+            'handlers': ['default', 'console'],
+        },
+        'login': {
+            'level': 'DEBUG',
+            'handlers': ['default', 'console'],
+        },
+        'user_auth': {
+            'level': 'DEBUG',
+            'handlers': ['default', 'console'],
+        },
+        'fileopt': {
+            'level': 'DEBUG',
+            'handlers': ['default', 'console'],
+        },
+        'api': {
+            'level': 'DEBUG',
+            'handlers': ['default', 'console'],
+        },
+    },
+}
+
+
+TEMPLATE_DEBUG = True
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'), )
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR + STATIC_URL
+
+SESSION_COOKIE_AGE = 60 * 20  # Age of cookie, in seconds (default: 2 weeks). Now is 5 minutes.
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
