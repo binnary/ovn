@@ -243,14 +243,39 @@ show-pkcs11-ids
 show-gateway"""
 # Create your models here.
 
+import psutil
+from django import forms
+#forms.TextInput
+
+def get_netcard():
+    netcard_info = [("Any", 'Any:0.0.0.0')]
+    info = psutil.net_if_addrs()
+    for k, v in info.items():
+        for item in v:
+            if item[0] == 2:
+                netcard_info.append((k, k+":"+item[1]))
+    return netcard_info
+
+
 class ConfigsInfo(models.Model):
     objects = models.Manager()
     #    (time.strftime('%Y.%m.%d %H-%m-%S-%s',time.localtime(time.time())))
     id = models.AutoField(primary_key=True)
     fileds = locals()
-    for i in configs.split():
-       fileds[i] = models.CharField(max_length=254, blank=True, verbose_name=i)
- 
+    local = models.CharField(max_length=254, blank=True, verbose_name="监听网络地址",
+                             choices=get_netcard(),
+                             help_text="""选择绑定本机网络地址,默认监听所有网络地址""")
+    from enum import Enum
+    class ProtoChoice(Enum):
+        TCP = "TCP"
+        UDP = "UDP"
+        BOTH = "TCP和UDP"
+
+    proto = models.CharField(max_length=254, blank=True, verbose_name="协议选择",
+                             choices=[(tag.value, tag.name) for tag in ProtoChoice],
+                             help_text="""选择服务端支持的协议类型""")
+    #widget = forms.widgets.Select(),
+
     def __str__(self):
         return u'ConfigsInfo'
 

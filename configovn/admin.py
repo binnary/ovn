@@ -5,12 +5,16 @@ from django.contrib import admin
 from django.core.checks import messages
 
 from configovn.models import *
-
-
+from django import forms
+class PersonForm(forms.ModelForm):
+    class Meta:
+        model = ConfigsInfo
+        exclude = ['Dev-type']
 # Register your models here.
 @admin.register(ConfigsInfo)
 class ConfigNormalAdmin(admin.ModelAdmin):
     list_display = []
+    form = PersonForm
     for i in ConfigsInfo._meta.get_fields():
         list_display.append(i.name)
 
@@ -50,8 +54,8 @@ class ConfigNormalAdmin(admin.ModelAdmin):
     #    return True
 
     # date_hierarchy = 'go_time'    # 详细时间分层筛选　
-    #def has_add_permission(self, request):
-    #    return True
+    def has_add_permission(self, request):
+        return True
 
     #def has_delete_permission(self, request):
     #    return True

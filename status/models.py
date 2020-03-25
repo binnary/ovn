@@ -17,7 +17,8 @@ class CurrentUsers(models.Model):
     end_time = models.CharField(max_length=254, blank=True, verbose_name=u'连接结束时间')
     protocol = models.CharField(max_length=254, blank=True, verbose_name=u'协议类型')
     online = models.CharField(max_length=254, blank=True, verbose_name=u'在线状态')
-    local_port = models.CharField(max_length=254, blank=True, verbose_name=u'本地端口')
+    local_port = models.CharField(max_length=254, blank=True, verbose_name=u'本地端口', help_text="""23
+                     是否发生法师法师法师法师法是否撒发顺丰是飒飒法师法萨芬撒放到啊所发生的sfff""")
 
     def __str__(self):
         return u'CurrentConnUser'
