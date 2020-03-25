@@ -10,4 +10,4 @@ from django.views.generic import ListView
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
-from contact.models import *
+from status.models import *

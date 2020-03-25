@@ -19,11 +19,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url
-
+from configovn.urls import *
 admin.site.site_title = 'OVNAdmin'
 admin.site.site_header = 'OpenVpn Admin'
 admin.autodiscover()
 urlpatterns = [
     url(r'doc/', include('django.contrib.admindocs.urls'), name='doc'),
     path(r'', admin.site.urls),
+    #url(r'^contact/', include(configovn_urls)),
 ]

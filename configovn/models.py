@@ -257,4 +257,21 @@ class ConfigsInfo(models.Model):
     class Meta:
         db_table = "ConfigsInfo"
         ordering = ('id',)
-        verbose_name = verbose_name_plural = u'当前用户'
+        verbose_name = verbose_name_plural = u'基础配置'
+
+
+class ConfigsAdvanced(models.Model):
+    objects = models.Manager()
+    #    (time.strftime('%Y.%m.%d %H-%m-%S-%s',time.localtime(time.time())))
+    id = models.AutoField(primary_key=True)
+    fileds = locals()
+    for i in configs.split():
+        fileds[i] = models.CharField(max_length=254, blank=True, verbose_name=i)
+
+    def __str__(self):
+        return u'ConfigAdvanced'
+
+    class Meta:
+        db_table = "ConfigsAdvanced"
+        ordering = ('id',)
+        verbose_name = verbose_name_plural = u'高级配置'
