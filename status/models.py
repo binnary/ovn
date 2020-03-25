@@ -23,6 +23,7 @@ class CurrentUsers(models.Model):
         return u'CurrentConnUser'
 
     class Meta:
+        db_table = "CurrentUsers"
         ordering = ('common_name',)
         verbose_name = verbose_name_plural = u'当前用户'
 
@@ -45,5 +46,6 @@ class LogsReport(models.Model):
         return self.name
 
     class Meta:
+        db_table = "Logs"
         ordering = ('common_name',)
         verbose_name = verbose_name_plural = u'日志报告'
