@@ -1,6 +1,4 @@
 from django.contrib import admin
-
-from django.contrib import admin
 # Register your models here.
 from django.core.checks import messages
 
@@ -18,16 +16,17 @@ class ConfigNormalAdmin(admin.ModelAdmin):
     for i in ConfigsInfo._meta.get_fields():
         list_display.append(i.name)
 
-    add_form_template = False
-    change_form_template = False
-    #list_filter = ('trusted_ip', 'trusted_port')  # 过滤器
-    # search_fields = ('trusted_port', 'trusted_ip')  # 搜索字段
+    save_as_continue = False
+    save_as = False
+
     # 增加自定义按钮
     actions = ['make_copy', 'custom_button', 'message_test']
 
     def custom_button(self, request, queryset):
         pass
 
+    # def get_urls(self):
+    #     urls = super(ConfigNormalAdmin, self).get_urls()
     # 显示的文本，与django admin一致
     custom_button.short_description = '测试按钮'
     # icon，参考element-ui icon与https://fontawesome.com
@@ -55,15 +54,14 @@ class ConfigNormalAdmin(admin.ModelAdmin):
 
     # date_hierarchy = 'go_time'    # 详细时间分层筛选　
     def has_add_permission(self, request):
-        return True
+        return False
 
-    #def has_delete_permission(self, request):
-    #    return True
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     class Meta:
-        permissions = [
-            ('black_article', '拉黑文章的权限'),
-        ]
+        save_as_continue = False
+
     # for i in list(Clients._meta.get_fields()):
     #    #if i) == u'common_name' or i.lower(
     #    #) == u'common_name' or i == u'common_name':
@@ -78,6 +76,22 @@ class ConfigAdvancedAdmin(admin.ModelAdmin):
         list_display.append(i.name)
     add_form_template = False
     change_form_template = False
-    #list_filter = ('trusted_ip', 'trusted_port')  # 过滤器
-    #search_fields = ('trusted_port', 'trusted_ip')  # 搜索字段
+    #def changelist_view(self, request, extra_content=None):
+    #    from configovn.views import GroupsView
+    #    return GroupsView(request)
+    def get_urls(self):
+        from django.urls import path
+        from functools import partial, reduce, update_wrapper
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                return self.admin_site.admin_view(view)(*args, **kwargs)
+            wrapper.model_admin = self
+            return update_wrapper(wrapper, view)
+
+        info = self.model._meta.app_label, self.model._meta.model_name
+
+        urlpatterns = [
+            path('1/change/', wrap(self.changelist_view), ),
+        ]
+        return urlpatterns
 

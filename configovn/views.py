@@ -11,6 +11,7 @@ import json
 import logging
 from django.shortcuts import render
 from configovn.models import *
+
 # Create your views here.
 
 logger = logging.getLogger(__name__)
@@ -32,6 +33,7 @@ def GroupsView(request):
         data = serializers.serialize("json", ConfigsAdvanced.objects.all())
         #  response = StreamingHttpResponse(json_iterator(data), 'contect_typ')
         #  response['Content-Type'] = 'application/json'
+        return render(request=request, template_name='change_form.html', content_type="application/json")
         return StreamingHttpResponse(
             json_iterator(data),
             content_type="application/json")
