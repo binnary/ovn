@@ -78,21 +78,21 @@ WSGI_APPLICATION = 'ovn.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASE_ROUTERS = ['ovn.dbrouter.DatabaseAppsRouter']
+#DATABASE_ROUTERS = ['ovn.dbrouter.DatabaseAppsRouter']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'db_st': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db_st.sqlite3'),
-    }
+    #'db_st': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, 'db_st.sqlite3'),
+    #}
 }
 
-DATABASE_APPS_MAPPING = {
-     'status':'db_st',
-}
+#DATABASE_APPS_MAPPING = {
+#     'status':'db_st',
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
