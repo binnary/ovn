@@ -11,9 +11,11 @@ class PersonForm(forms.ModelForm):
 # Register your models here.
 @admin.register(ConfigsInfo)
 class ConfigNormalAdmin(admin.ModelAdmin):
-    list_display = []
+    list_display = ["user"]
     form = PersonForm
     for i in ConfigsInfo._meta.get_fields():
+        if i.name == 'id' or i.name == "user":
+            continue
         list_display.append(i.name)
 
     save_as_continue = False
@@ -21,6 +23,8 @@ class ConfigNormalAdmin(admin.ModelAdmin):
 
     # 增加自定义按钮
     actions = ['make_copy', 'custom_button', 'message_test']
+
+    #def get_list_filter(self, request):
 
     def custom_button(self, request, queryset):
         pass
@@ -53,12 +57,17 @@ class ConfigNormalAdmin(admin.ModelAdmin):
     #    return True
 
     # date_hierarchy = 'go_time'    # 详细时间分层筛选　
-    def has_add_permission(self, request):
-        return False
+    #def has_add_permission(self, request):
+    #    return False
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+    #def has_delete_permission(self, request, obj=None):
+    #    return False
 
+    def save_model(self, request, obj, form, change):
+        if form.is_valid():
+            album = form.save()
+
+        super().save_model(request, obj, form, change)
     class Meta:
         save_as_continue = False
 

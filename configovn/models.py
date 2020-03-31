@@ -274,11 +274,17 @@ class ConfigsInfo(models.Model):
     proto = models.CharField(max_length=254, blank=True, verbose_name="协议选择",
                              choices=[(tag.value, tag.name) for tag in ProtoChoice],
                              help_text="""选择服务端支持的协议类型""")
-    #widget = forms.widgets.Select(),
-
+    from django.contrib.auth.models import User
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="用户")
     def __str__(self):
         return u'ConfigsInfo'
 
+    def save(self, *args, **kwargs):
+        #do_something()
+        print("ssssssssssssssssssssssss")
+        print(kwargs)
+        print(args)
+        super(ConfigsInfo, self).save(*args, **kwargs)  # Call the "real" save() method.
     class Meta:
         db_table = "ConfigsInfo"
         ordering = ('id',)
