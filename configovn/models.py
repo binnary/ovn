@@ -248,43 +248,62 @@ from django import forms
 #forms.TextInput
 
 def get_netcard():
-    netcard_info = [("Any", 'Any:0.0.0.0')]
+    netcard_info = [("0.0.0.0", 'Any:0.0.0.0')]
     info = psutil.net_if_addrs()
     for k, v in info.items():
         for item in v:
             if item[0] == 2:
-                netcard_info.append((k, k+":"+item[1]))
+                netcard_info.append((item[1], k+":"+item[1]))
     return netcard_info
+
+
+class IntegerRangeField(models.IntegerField):
+    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
+        self.min_value, self.max_value = min_value, max_value
+        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
+
+    def formfield(self, **kwargs):
+        defaults = {'min_value': self.min_value, 'max_value': self.max_value}
+        defaults.update(kwargs)
+        return super(IntegerRangeField, self).formfield(**defaults)
 
 
 class ConfigsInfo(models.Model):
     objects = models.Manager()
     #    (time.strftime('%Y.%m.%d %H-%m-%S-%s',time.localtime(time.time())))
     id = models.AutoField(primary_key=True)
-    fileds = locals()
     local = models.CharField(max_length=254, blank=True, verbose_name="监听网络地址",
-                             choices=get_netcard(),
+                             choices=get_netcard(), default='0.0.0.0',
                              help_text="""选择绑定本机网络地址,默认监听所有网络地址""")
     from enum import Enum
     class ProtoChoice(Enum):
         TCP = "TCP"
         UDP = "UDP"
-        BOTH = "TCP和UDP"
+        # BOTH = "TCP和UDP"
 
-    proto = models.CharField(max_length=254, blank=True, verbose_name="协议选择",
+    proto = models.CharField(max_length=254, blank=False, verbose_name="协议选择",default='UDP',
                              choices=[(tag.value, tag.name) for tag in ProtoChoice],
                              help_text="""选择服务端支持的协议类型""")
     from django.contrib.auth.models import User
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="用户")
+    from django.core.validators import MaxValueValidator, MinValueValidator
+
+    port = models.IntegerField(blank=False, default='1195', verbose_name="监听网络端口",unique=True,
+                               validators=[MaxValueValidator(65534), MinValueValidator(1024)],
+                               help_text="""选择绑定本机网络端口,默认监听1195""")
+    duplicate_cn = models.BooleanField(blank=True, default=True, verbose_name="是否允许多用户共享认证文件",
+                               help_text="""仅针对服务器端配置,决定是允许多用户共享一份认证文件""")
+
     def __str__(self):
         return u'ConfigsInfo'
 
     def save(self, *args, **kwargs):
-        #do_something()
+        # do_something()
         print("ssssssssssssssssssssssss")
         print(kwargs)
         print(args)
         super(ConfigsInfo, self).save(*args, **kwargs)  # Call the "real" save() method.
+
     class Meta:
         db_table = "ConfigsInfo"
         ordering = ('id',)

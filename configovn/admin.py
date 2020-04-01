@@ -1,22 +1,45 @@
 from django.contrib import admin
 # Register your models here.
 from django.core.checks import messages
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 
 from configovn.models import *
 from django import forms
+
+
 class PersonForm(forms.ModelForm):
+    myform = models.CharField(max_length=254, blank=True, verbose_name="MYFORM",
+                              help_text="""选择绑定本机网络地址,默认监听所有网络地址""")
     class Meta:
         model = ConfigsInfo
-        exclude = ['Dev-type']
+        exclude=[]
+        #fields = ['id', 'proto']
+
+
 # Register your models here.
 @admin.register(ConfigsInfo)
 class ConfigNormalAdmin(admin.ModelAdmin):
     list_display = ["user"]
-    form = PersonForm
+   # form = PersonForm
     for i in ConfigsInfo._meta.get_fields():
         if i.name == 'id' or i.name == "user":
             continue
         list_display.append(i.name)
+
+    def pass_audit_str(self):
+        from django.utils.html import format_html
+        parameter_str = 'id={}&status={}'.format(str(self.id), str(self.user))
+        color_code = ''
+        btn_str = '<a class="btn btn-xs btn-danger" href="{}">' \
+                  '<input name="通过审核"' \
+                  'type="button" id="passButton" ' \
+                  'title="passButton" value="通过审核">' \
+                  '</a>'
+        return format_html(btn_str, '/pass_audit/?{}'.format(parameter_str))
+
+    pass_audit_str.short_description = '通过审核'
+    list_display.append(pass_audit_str)
 
     save_as_continue = False
     save_as = False
@@ -81,7 +104,7 @@ class ConfigNormalAdmin(admin.ModelAdmin):
 @admin.register(ConfigsAdvanced)
 class ConfigAdvancedAdmin(admin.ModelAdmin):
     list_display = []
-    for i in ConfigsInfo._meta.get_fields():
+    for i in ConfigsAdvanced._meta.get_fields():
         list_display.append(i.name)
     add_form_template = False
     change_form_template = False

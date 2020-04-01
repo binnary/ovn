@@ -50,3 +50,10 @@ class LogsReportAdmin(admin.ModelAdmin):
     #    #) == u'common_name' or i == u'common_name':
     #    #    continue
     #    list_display.append(i.filed_name)
+# post_save 在某个Model保存之后调用, 对于每个唯一的dispatch_uid,接收器都只被信号调用一次
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+@receiver(post_save, sender=User, dispatch_uid="my_unique_identifier")
+def my_handler(sender, instance, **kwargs):
+    print("hello world")
