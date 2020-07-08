@@ -242,18 +242,105 @@ group
 show-pkcs11-ids
 show-gateway"""
 # Create your models here.
+show_ciphers = """AES-128-CBC  (128 bit key, 128 bit block)
+AES-128-CFB  (128 bit key, 128 bit block, TLS client/server mode only)
+AES-128-CFB1  (128 bit key, 128 bit block, TLS client/server mode only)
+AES-128-CFB8  (128 bit key, 128 bit block, TLS client/server mode only)
+AES-128-GCM  (128 bit key, 128 bit block, TLS client/server mode only)
+AES-128-OFB  (128 bit key, 128 bit block, TLS client/server mode only)
+AES-192-CBC  (192 bit key, 128 bit block)
+AES-192-CFB  (192 bit key, 128 bit block, TLS client/server mode only)
+AES-192-CFB1  (192 bit key, 128 bit block, TLS client/server mode only)
+AES-192-CFB8  (192 bit key, 128 bit block, TLS client/server mode only)
+AES-192-GCM  (192 bit key, 128 bit block, TLS client/server mode only)
+AES-192-OFB  (192 bit key, 128 bit block, TLS client/server mode only)
+AES-256-CBC  (256 bit key, 128 bit block)
+AES-256-CFB  (256 bit key, 128 bit block, TLS client/server mode only)
+AES-256-CFB1  (256 bit key, 128 bit block, TLS client/server mode only)
+AES-256-CFB8  (256 bit key, 128 bit block, TLS client/server mode only)
+AES-256-GCM  (256 bit key, 128 bit block, TLS client/server mode only)
+AES-256-OFB  (256 bit key, 128 bit block, TLS client/server mode only)
+ARIA-128-CBC  (128 bit key, 128 bit block)
+ARIA-128-CFB  (128 bit key, 128 bit block, TLS client/server mode only)
+ARIA-128-CFB1  (128 bit key, 128 bit block, TLS client/server mode only)
+ARIA-128-CFB8  (128 bit key, 128 bit block, TLS client/server mode only)
+ARIA-128-GCM  (128 bit key, 128 bit block, TLS client/server mode only)
+ARIA-128-OFB  (128 bit key, 128 bit block, TLS client/server mode only)
+ARIA-192-CBC  (192 bit key, 128 bit block)
+ARIA-192-CFB  (192 bit key, 128 bit block, TLS client/server mode only)
+ARIA-192-CFB1  (192 bit key, 128 bit block, TLS client/server mode only)
+ARIA-192-CFB8  (192 bit key, 128 bit block, TLS client/server mode only)
+ARIA-192-GCM  (192 bit key, 128 bit block, TLS client/server mode only)
+ARIA-192-OFB  (192 bit key, 128 bit block, TLS client/server mode only)
+ARIA-256-CBC  (256 bit key, 128 bit block)
+ARIA-256-CFB  (256 bit key, 128 bit block, TLS client/server mode only)
+ARIA-256-CFB1  (256 bit key, 128 bit block, TLS client/server mode only)
+ARIA-256-CFB8  (256 bit key, 128 bit block, TLS client/server mode only)
+ARIA-256-GCM  (256 bit key, 128 bit block, TLS client/server mode only)
+ARIA-256-OFB  (256 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-128-CBC  (128 bit key, 128 bit block)
+CAMELLIA-128-CFB  (128 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-128-CFB1  (128 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-128-CFB8  (128 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-128-OFB  (128 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-192-CBC  (192 bit key, 128 bit block)
+CAMELLIA-192-CFB  (192 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-192-CFB1  (192 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-192-CFB8  (192 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-192-OFB  (192 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-256-CBC  (256 bit key, 128 bit block)
+CAMELLIA-256-CFB  (256 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-256-CFB1  (256 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-256-CFB8  (256 bit key, 128 bit block, TLS client/server mode only)
+CAMELLIA-256-OFB  (256 bit key, 128 bit block, TLS client/server mode only)
+SEED-CBC  (128 bit key, 128 bit block)
+SEED-CFB  (128 bit key, 128 bit block, TLS client/server mode only)
+SEED-OFB  (128 bit key, 128 bit block, TLS client/server mode only)
+SM4-CBC  (128 bit key, 128 bit block)
+SM4-CFB  (128 bit key, 128 bit block, TLS client/server mode only)
+SM4-OFB  (128 bit key, 128 bit block, TLS client/server mode only)
+BF-CBC  (128 bit key by default, 64 bit block)
+BF-CFB  (128 bit key by default, 64 bit block, TLS client/server mode only)
+BF-OFB  (128 bit key by default, 64 bit block, TLS client/server mode only)
+CAST5-CBC  (128 bit key by default, 64 bit block)
+CAST5-CFB  (128 bit key by default, 64 bit block, TLS client/server mode only)
+CAST5-OFB  (128 bit key by default, 64 bit block, TLS client/server mode only)
+DES-CBC  (64 bit key, 64 bit block)
+DES-CFB  (64 bit key, 64 bit block, TLS client/server mode only)
+DES-CFB1  (64 bit key, 64 bit block, TLS client/server mode only)
+DES-CFB8  (64 bit key, 64 bit block, TLS client/server mode only)
+DES-EDE-CBC  (128 bit key, 64 bit block)
+DES-EDE-CFB  (128 bit key, 64 bit block, TLS client/server mode only)
+DES-EDE-OFB  (128 bit key, 64 bit block, TLS client/server mode only)
+DES-EDE3-CBC  (192 bit key, 64 bit block)
+DES-EDE3-CFB  (192 bit key, 64 bit block, TLS client/server mode only)
+DES-EDE3-CFB1  (192 bit key, 64 bit block, TLS client/server mode only)
+DES-EDE3-CFB8  (192 bit key, 64 bit block, TLS client/server mode only)
+DES-EDE3-OFB  (192 bit key, 64 bit block, TLS client/server mode only)
+DES-OFB  (64 bit key, 64 bit block, TLS client/server mode only)
+DESX-CBC  (192 bit key, 64 bit block)
+RC2-40-CBC  (40 bit key by default, 64 bit block)
+RC2-64-CBC  (64 bit key by default, 64 bit block)
+RC2-CBC  (128 bit key by default, 64 bit block)
+RC2-CFB  (128 bit key by default, 64 bit block, TLS client/server mode only)
+RC2-OFB  (128 bit key by default, 64 bit block, TLS client/server mode only)
+"""
 
-import psutil
-from django import forms
-#forms.TextInput
+def showchipers():
+    chipers_info = []
+    for k in show_ciphers.split("\n"):
+        chipers_info.append((k.split("  ")[0], k))
+    return chipers_info
+
 
 def get_netcard():
-    netcard_info = [("0.0.0.0", 'Any:0.0.0.0')]
+    import psutil
+    netcard_info = [("0.0.0.0", 'any:0.0.0.0')]
     info = psutil.net_if_addrs()
     for k, v in info.items():
         for item in v:
             if item[0] == 2:
-                netcard_info.append((item[1], k+":"+item[1]))
+                netcard_info.append((item[1], k + ":" + item[1]))
     return netcard_info
 
 
@@ -291,17 +378,18 @@ class ConfigsInfo(models.Model):
     port = models.IntegerField(blank=False, default='1195', verbose_name="监听网络端口",unique=True,
                                validators=[MaxValueValidator(65534), MinValueValidator(1024)],
                                help_text="""选择绑定本机网络端口,默认监听1195""")
-    duplicate_cn = models.BooleanField(blank=True, default=True, verbose_name="是否允许多用户共享认证文件",
-                               help_text="""仅针对服务器端配置,决定是允许多用户共享一份认证文件""")
+    duplicate_cn = models.BooleanField(blank=False, default=True, verbose_name="是否允许多用户共享认证文件",
+                                       help_text="""仅针对服务器端配置,决定是允许多用户共享一份认证文件""")
+
+    chiper = models.CharField(max_length=254, blank=True, verbose_name="设置加密算法",
+                               choices=showchipers(), default='AES-128-CBC',
+                               help_text="""使用指定的密码算法加密数据包""")
 
     def __str__(self):
         return u'ConfigsInfo'
 
     def save(self, *args, **kwargs):
         # do_something()
-        print("ssssssssssssssssssssssss")
-        print(kwargs)
-        print(args)
         super(ConfigsInfo, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     class Meta:

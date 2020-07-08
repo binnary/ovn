@@ -111,19 +111,19 @@ class ConfigAdvancedAdmin(admin.ModelAdmin):
     #def changelist_view(self, request, extra_content=None):
     #    from configovn.views import GroupsView
     #    return GroupsView(request)
-    def get_urls(self):
-        from django.urls import path
-        from functools import partial, reduce, update_wrapper
-        def wrap(view):
-            def wrapper(*args, **kwargs):
-                return self.admin_site.admin_view(view)(*args, **kwargs)
-            wrapper.model_admin = self
-            return update_wrapper(wrapper, view)
+    #def get_urls(self):
+    #    from django.urls import path
+    #    from functools import partial, reduce, update_wrapper
+    #    def wrap(view):
+    #        def wrapper(*args, **kwargs):
+    #            return self.admin_site.admin_view(view)(*args, **kwargs)
+    #        wrapper.model_admin = self
+    #        return update_wrapper(wrapper, view)
 
-        info = self.model._meta.app_label, self.model._meta.model_name
+    #    info = self.model._meta.app_label, self.model._meta.model_name
 
-        urlpatterns = [
-            path('1/change/', wrap(self.changelist_view), ),
-        ]
-        return urlpatterns
+    #    urlpatterns = [
+    #        path('1/change/', wrap(self.changelist_view), ),
+    #    ]
+    #    return urlpatterns
 

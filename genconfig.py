@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os, sys
-import django
 import logging
 import time
 from optparse import OptionParser
@@ -25,19 +24,17 @@ def_client_config = {
     'remote': '127.0.0.1 1195',
     'management': '0.0.0.0 1198',
     'nobind': '',
-    # 'management-query-passwords':'',
-    # 'auth-user-pass':'',
+    'explicit-exit-notify':'',
 }
 # 'remote-cert-tls':'server',
 def_server_config = {
     'username-as-common-name': '',
     'port': '1195',
-    'server': '10.9.0.0 255.255.255.0',
+    'server': '10.9.0.0 255.255.0.0',
     'ifconfig-pool-persist': 'ipp.txt',
-    'push': '"route 10.9.0.0 255.255.255.0 vpn_gateway 500"',
+    'push': '"route 10.9.0.0 255.255.0.0 vpn_gateway 0"',
     'duplicate-cn': '',
 }
-
 
 def save_config(configs):
     out = ""
@@ -45,6 +42,31 @@ def save_config(configs):
         out += key + " " + configs[key] + "\n"
     return out
 
+def getLocalIp():
+    try:
+        import psutil
+    except:
+        os.system("pip install psutil")
+    info = psutil.net_if_addrs()
+#snic(family=2, address='192.168.31.61', netmask='255.255.255.0', broadcast='192.168.31.255', ptp=None)
+    ips_info=()
+    for k, v in info.items():
+        for item in v:
+            if item.family == 2 and item.address != '127.0.0.1':
+                print(item.address)
+    return ips_info
+def get_netcard():
+    try:
+        import psutil
+    except:
+        os.system("pip install psutil")
+    netcard_info = [("0.0.0.0", 'any:0.0.0.0')]
+    info = psutil.net_if_addrs()
+    for k, v in info.items():
+        for item in v:
+            if item[0] == 2:
+                netcard_info.append((item[1], k + ":" + item[1]))
+    return netcard_info
 
 # set default env
 def default_env_setup():
@@ -86,6 +108,7 @@ def server_env_setup(mail=None, name=None):
 
 
 def main():
+    import django
     sys.path.append(os.path.dirname(os.path.realpath(__file__)))
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ovn.settings')
     django.setup()
@@ -114,6 +137,7 @@ def GenServerKeys(name='server'):
 
 
 def GenClientKeys(name='client_default'):
+    os.system(os.getenv('EASY_RSA') + "/revoke-full " + name)
     os.system(os.getenv('EASY_RSA') + "/pkitool " + name)
 
 
@@ -165,7 +189,7 @@ if __name__ == '__main__':
     parser.add_option("-o", "--output", dest="output", help="output to file")
     # parser.add_option("--interact", dest="interact", help="interact")
     (options, args) = parser.parse_args()
-
+    getLocalIp()
     mail = 'default@dtt.cn'
     name = str(options.htype) + '01'
 
